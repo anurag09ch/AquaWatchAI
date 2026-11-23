@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AquaWatch AI</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <main class="container">
+        <header>
+            <div class="logo">💧</div>
+            <h1>AquaWatch AI</h1>
+            <p class="subtitle">Smart Water Leak Prediction System</p>
+        </header>
+
+        <section class="card">
+            <h2>Water Usage Analyzer</h2>
+            <p class="description">
+                Enter your household water consumption details
+                to check for unusual usage patterns.
+            </p>
+
+            <form method="POST">
+                <label for="household_size">
+                    Number of household members
+                </label>
+                <input id="household_size" type="number"
+                       name="household_size" min="1" max="50"
+                       placeholder="Example: 4" required>
+
+                <label for="daily_usage">
+                    Daily water usage (litres)
+                </label>
+                <input id="daily_usage" type="number"
+                       name="daily_usage" min="0" step="any"
+                       placeholder="Example: 650" required>
+
+                <label for="night_usage">
+                    Night-time water usage (litres)
+                </label>
+                <input id="night_usage" type="number"
+                       name="night_usage" min="0" step="any"
+                       placeholder="Example: 100" required>
+
+                <label for="high_usage_days">
+                    Consecutive days of unusually high usage
+                </label>
+                <input id="high_usage_days" type="number"
+                       name="high_usage_days" min="0" max="365"
+                       placeholder="Example: 4" required>
+
+                <button type="submit">Analyze Water Usage</button>
+            </form>
+        </section>
+
+        {% if result %}
+        <section class="result {{ result_type }}">
+            <h2>AI Prediction</h2>
+            <h3>{{ result }}</h3>
+            <p>{{ message }}</p>
+            <p><strong>Model-estimated leak probability:</strong>
+                {{ probability }}%</p>
+            <p class="note">
+                This is an experimental prediction, not proof of a leak.
+                Check your meter and contact a qualified plumber if needed.
+            </p>
+        </section>
+        {% elif message %}
+        <section class="result warning">
+            <p>{{ message }}</p>
+        </section>
+        {% endif %}
+
+        <footer>
+            AquaWatch AI | Powered by Machine Learning
+        </footer>
+    </main>
+
+</body>
+</html>
